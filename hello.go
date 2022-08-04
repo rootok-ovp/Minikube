@@ -1,20 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
+  "fmt"
+  "log"
+  "net/http"
+  "time"
 )
 
-//Hello Server responds to requests with the given URL path.
-func HelloServer(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, you requested: %s", r.URL.Path)
-	log.Printf("Received request for path: %s", r.URL.Path)
+func appHandler(w http.ResponseWriter, r *http.Request) {
+
+  fmt.Println(time.Now(), "Hello from my new fresh server")
+
 }
+
 func main() {
-	var addr string = ":8181"
-	handler := http.HandlerFunc(HelloServer)
-	if err := http.ListenAndServe(addr, handler); err != nil {
-		log.Fatalf("Could not listen on port %s %v", addr, err)
-	}
+  http.HandleFunc("/", appHandler)
+
+  log.Println("Started, serving on port 8080")
+  err := http.ListenAndServe(":8080", nil)
+
+  if err != nil {
+    log.Fatal(err.Error())
+  }
 }
