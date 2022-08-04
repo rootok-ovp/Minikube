@@ -1,9 +1,9 @@
 FROM golang:1-alpine as build
 WORKDIR /app
-COPY hello.go /app
-RUN go build hello.go
+COPY server.go /app
+RUN go build server.go
 FROM alpine:latest
 WORKDIR /app
 COPY --from=build /app /app
-EXPOSE 8180
+EXPOSE 8080
 ENTRYPOINT ["./hello"]
